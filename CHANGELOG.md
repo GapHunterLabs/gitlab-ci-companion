@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+## [0.1.1]
+
+### Fixed
+
+- Marketplace listing icon not rendering (showed a broken "plugin icon"
+  placeholder) — replaced with the same icon already proven to render
+  correctly on other Gap Hunter Labs listings.
+
 ## [0.1.0]
 
 ### Added
@@ -14,5 +22,6 @@
 - Zero network calls — every check runs against the file already open in
   the editor.
 
-[Unreleased]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.1...HEAD
+[0.1.1]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/GapHunterLabs/gitlab-ci-companion/commits/0.1.0
