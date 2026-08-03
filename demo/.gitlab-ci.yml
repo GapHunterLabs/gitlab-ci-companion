@@ -1,0 +1,38 @@
+stages:
+  - build
+  - test
+  - deploy
+
+compile:
+  stage: build
+  script:
+    - echo "building"
+
+# Typo in the stage name -- "depoy" isn't declared in `stages:` above.
+# GitlabCiCompanion flags this; plain YAML highlighting alone would not.
+deploy_job:
+  stage: depoy
+  script:
+    - echo "deploying"
+
+# No script/trigger/extends -- this job would silently do nothing in a
+# real GitLab pipeline.
+empty_job:
+  stage: test
+
+# `rules:` combined with `only:` is mutually exclusive in real GitLab --
+# GitLab itself would reject this at pipeline-creation time.
+run_tests:
+  stage: test
+  script:
+    - echo "testing"
+  only:
+    - main
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+# Duplicate job name -- the second definition silently overrides the first.
+compile:
+  stage: build
+  script:
+    - echo "second compile, shadows the first"
