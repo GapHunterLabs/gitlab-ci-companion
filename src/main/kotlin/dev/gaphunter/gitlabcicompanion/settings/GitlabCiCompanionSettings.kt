@@ -11,6 +11,11 @@ class GitlabCiCompanionSettings : PersistentStateComponent<GitlabCiCompanionSett
 
     class State {
         var disabledRuleIds: MutableSet<String> = mutableSetOf()
+
+        // URLs only -- Personal Access Tokens never live here (this gets
+        // persisted to an XML file on disk); they live in PasswordSafe only,
+        // via GitlabCredentialsStore.
+        var instanceUrls: MutableList<String> = mutableListOf()
     }
 
     private var state = State()
@@ -25,6 +30,12 @@ class GitlabCiCompanionSettings : PersistentStateComponent<GitlabCiCompanionSett
 
     fun setEnabled(rule: GitlabCiRule, enabled: Boolean) {
         if (enabled) state.disabledRuleIds.remove(rule.id) else state.disabledRuleIds.add(rule.id)
+    }
+
+    fun getInstanceUrls(): List<String> = state.instanceUrls.toList()
+
+    fun setInstanceUrls(urls: List<String>) {
+        state.instanceUrls = urls.toMutableList()
     }
 
     companion object {

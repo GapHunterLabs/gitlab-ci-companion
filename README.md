@@ -21,15 +21,28 @@ downloads, paid), not assumptions:
 
 ## Why built this way
 
-- **Zero network calls, on purpose.** Both complaints above trace back
-  to the same root cause: depending on a live GitLab API surface that
-  can drift out from under the plugin (schema changes) or needs
-  credential management the plugin gets wrong (multi-instance PATs).
-  This plugin never talks to a GitLab server at all — every check runs
-  purely against the `.gitlab-ci.yml` text already open in the editor.
-  Building a pipeline-status/job-log feature without the ability to test
-  it against real API drift would risk reproducing the exact failure
-  mode this plugin exists to avoid — see `future/v0.2-pipeline-status/README.md`.
+- **Zero network calls by default; live pipeline status is opt-in.**
+  Both complaints above trace back to the same root cause: depending
+  on a live GitLab API surface that can drift out from under the
+  plugin (schema changes) or needs credential management the plugin
+  gets wrong (multi-instance PATs). Every static check still runs
+  purely against the `.gitlab-ci.yml` text open in the editor, with no
+  network call, exactly as in v0.1 — that promise never changes.
+  Configure a GitLab instance + Personal Access Token in Settings and
+  a "GitLab CI" tool window (bottom) shows real pipelines/jobs for the
+  project's detected remote. The pipeline/job parser reads only the
+  fields it actually displays and ignores anything unknown or missing
+  — confirmed necessary, not just tidy, against a real response
+  captured from `gitlab.com/api/v4` (a job object carries full nested
+  user/commit objects) — the direct fix for the schema-drift
+  `GitLabApiException` complaint above. Tokens are stored one per
+  GitLab instance via the IDE's own credential store, never a shared
+  field — the direct fix for the "adding a second PAT breaks the
+  first" complaint. Design history in `future/v0.2-pipeline-status/README.md`.
+- **v1 scope cuts, deliberate:** only GitLab instances at the root of
+  their domain (`https://host/api/v4/...`) — self-hosted installs
+  mounted under a subpath aren't supported yet. No job log viewer;
+  double-clicking a pipeline opens it in the browser instead.
 - **Filename/path-based detection, never content-sniffed.** Detects
   `.gitlab-ci.yml` and any `.yml`/`.yaml` under a `.gitlab/` directory —
   no `FileTypeOverrider`, no risk of the FileType-desync class of bug
@@ -49,6 +62,11 @@ downloads, paid), not assumptions:
 Open any `.gitlab-ci.yml` (or a `.yml`/`.yaml` under `.gitlab/`) — checks
 run automatically as part of the editor's normal highlighting pass.
 Disable individual checks under Settings > Tools > GitLab CI Companion.
+
+For live pipeline status: Settings > Tools > GitLab CI Companion > add
+a GitLab instance URL + a Personal Access Token (`api`/`read_api`
+scope), then open the "GitLab CI" tool window (bottom) — it detects
+the project's GitLab remote automatically from `.git/config`.
 
 ## Enterprise / Team Licensing
 

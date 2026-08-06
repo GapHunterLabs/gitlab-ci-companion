@@ -12,10 +12,12 @@
         entries using an unrecognized key, jobs combining <code>only:</code>/
         <code>except:</code> with <code>rules:</code> (GitLab silently ignores
         the former when the latter is present), and duplicate job names.</p>
-        <p>100% local, zero network calls — every check runs against the file
-        already open in the editor, never a live GitLab API. Pipeline status
-        and job log fetching are deliberately not built here (see this
-        plugin's own README for why).</p>
+        <p>100% local by default — every static check runs against the file
+        already open in the editor, never a live GitLab API. Live pipeline
+        status is opt-in: configure a GitLab instance and Personal Access
+        Token in Settings to see a "GitLab CI" tool window with real
+        pipelines and jobs for the project's detected remote. Skip that
+        setup and the plugin makes zero network calls, exactly as before.</p>
         <p>Free. No license nags, no telemetry, no popups.</p>
     ]]></description>
 
@@ -30,5 +32,8 @@
             instance="dev.gaphunter.gitlabcicompanion.settings.GitlabCiCompanionConfigurable"
             id="dev.gaphunter.gitlabcicompanion.settings.GitlabCiCompanionConfigurable"
             displayName="GitLab CI Companion"/>
+        <toolWindow id="GitLab CI"
+                    anchor="bottom"
+                    factoryClass="dev.gaphunter.gitlabcicompanion.toolwindow.GitlabPipelineToolWindowFactory"/>
     </extensions>
 </idea-plugin>

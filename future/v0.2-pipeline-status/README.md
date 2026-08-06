@@ -1,5 +1,16 @@
 # v0.2 — live pipeline status / job log fetching (deliberately not built in v0.1)
 
+**Shipped 2026-08-05.** Built opt-in (no instance configured = zero
+network calls, same promise as v0.1), addressing both complaints below
+directly: `GitlabApiClient`/`GitlabJsonParser` parse only the fields
+actually used and ignore unknown/missing ones (confirmed necessary
+against a real, live `gitlab.com/api/v4` response, which carries huge
+nested objects a naive parser would choke on), and
+`GitlabCredentialsStore` keys each token by instance URL so a second
+PAT never touches the first. Job-log viewing wasn't built (out of
+scope, see main README) — double-clicking a pipeline opens it in the
+browser instead. Kept below as the original design record.
+
 **Decided 2026-08-03, at the same time v0.1 was scoped.** This is a
 deliberate scope decision, not an oversight or a "ran out of time"
 placeholder — see the main README's "Why built this way" section for
