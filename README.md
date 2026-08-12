@@ -71,7 +71,7 @@ the project's GitLab remote automatically from `.git/config`.
 ## Enterprise / Team Licensing
 
 Need enterprise features, custom pipeline validation rules, or team
-licensing? Contact us at **kennyj.diazm@gmail.com**.
+licensing? Contact us at **gaphunterlabs@gmail.com**.
 
 ## Development
 
