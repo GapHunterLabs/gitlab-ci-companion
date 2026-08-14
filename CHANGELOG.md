@@ -4,6 +4,22 @@
 
 ## [Unreleased]
 
+## [0.1.3]
+
+### Fixed
+
+- Tool window content (pipelines/jobs tables, setup prompts) was
+  rendering flush against the tool window's own border, with no margin
+  — fixed with an 8px empty border on the root panel.
+
+## [0.1.2]
+
+_No changelog entry was recorded for this release — `gradle.properties`
+already showed 0.1.2 when this file was next touched (2026-08-12), with
+no corresponding entry above 0.1.1. Not reconstructed retroactively to
+avoid documenting unverified changes; noted here so the gap is visible
+instead of silent._
+
 ## [0.1.1]
 
 ### Fixed
@@ -22,6 +38,8 @@
 - Zero network calls — every check runs against the file already open in
   the editor.
 
-[Unreleased]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.1...HEAD
+[Unreleased]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.3...HEAD
+[0.1.3]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.2...0.1.3
+[0.1.2]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.1...0.1.2
 [0.1.1]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/GapHunterLabs/gitlab-ci-companion/commits/0.1.0

@@ -6,6 +6,7 @@ import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.util.Alarm
+import com.intellij.util.ui.JBUI
 import dev.gaphunter.gitlabcicompanion.api.GitlabApiClient
 import dev.gaphunter.gitlabcicompanion.api.GitlabJob
 import dev.gaphunter.gitlabcicompanion.api.GitlabPipeline
@@ -41,7 +42,7 @@ private const val POLL_INTERVAL_MS = 15_000
  */
 class GitlabPipelineToolWindow(private val project: Project, private val toolWindow: ToolWindow) {
 
-    val component: JPanel = JPanel(BorderLayout())
+    val component: JPanel = JPanel(BorderLayout()).apply { border = JBUI.Borders.empty(8) }
 
     private val alarm = Alarm(Alarm.ThreadToUse.SWING_THREAD, toolWindow.disposable)
 
