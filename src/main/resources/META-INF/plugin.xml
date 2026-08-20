@@ -34,6 +34,7 @@
             displayName="GitLab CI Companion"/>
         <toolWindow id="GitLab CI"
                     anchor="bottom"
+                    icon="/icons/toolWindow.svg"
                     factoryClass="dev.gaphunter.gitlabcicompanion.toolwindow.GitlabPipelineToolWindowFactory"/>
     </extensions>
 </idea-plugin>
