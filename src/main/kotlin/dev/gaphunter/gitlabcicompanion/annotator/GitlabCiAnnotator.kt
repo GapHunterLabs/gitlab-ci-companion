@@ -20,6 +20,7 @@ import dev.gaphunter.gitlabcicompanion.validate.RulesSyntaxValidator
 import dev.gaphunter.gitlabcicompanion.validate.ScriptPresenceValidator
 import dev.gaphunter.gitlabcicompanion.validate.SourceRef
 import dev.gaphunter.gitlabcicompanion.validate.StageReferenceValidator
+import dev.gaphunter.gitlabcicompanion.review.ReviewPrompt
 import org.jetbrains.yaml.psi.YAMLFile
 import org.jetbrains.yaml.psi.YAMLKeyValue
 import org.jetbrains.yaml.psi.YAMLMapping
@@ -59,6 +60,8 @@ class GitlabCiAnnotator : Annotator {
             val target = elementsByKey[finding.location.elementKey] ?: continue
             val range: TextRange = target.textRange
             holder.newAnnotation(HighlightSeverity.WARNING, finding.message).range(range).create()
+            val lineNumber = file.viewProvider.document?.getLineNumber(range.startOffset)?.plus(1) ?: 0
+            ReviewPrompt.recordHit(file.project, "${file.virtualFile?.path}:$lineNumber:${finding.message}")
         }
     }
 

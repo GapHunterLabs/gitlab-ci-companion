@@ -25,6 +25,7 @@
     <depends>org.jetbrains.plugins.yaml</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup id="GitLab CI Companion" displayType="BALLOON"/>
         <annotator language="yaml" implementationClass="dev.gaphunter.gitlabcicompanion.annotator.GitlabCiAnnotator"/>
         <applicationService serviceImplementation="dev.gaphunter.gitlabcicompanion.settings.GitlabCiCompanionSettings"/>
         <applicationConfigurable

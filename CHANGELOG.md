@@ -4,6 +4,18 @@
 
 ## [Unreleased]
 
+## [0.1.5]
+
+### Added
+
+- Review/star CTA: after 10 distinct real findings across any of the 5
+  static checks (stage reference, script presence, rules syntax,
+  only/except-vs-rules conflict, duplicate job name), a one-time
+  notification asks whether to rate the plugin on Marketplace, with a
+  permanent "Don't ask again" option. Standard mechanism used
+  catalog-wide since 2026-08-24 (`CONSTITUTION.md` §7.2), rolled out to
+  this plugin now.
+
 ## [0.1.4]
 
 ### Fixed
@@ -46,7 +58,9 @@ instead of silent._
 - Zero network calls — every check runs against the file already open in
   the editor.
 
-[Unreleased]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.3...HEAD
+[Unreleased]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.5...HEAD
+[0.1.5]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.4...0.1.5
+[0.1.4]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.3...0.1.4
 [0.1.3]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.2...0.1.3
 [0.1.2]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.1...0.1.2
 [0.1.1]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.0...0.1.1
