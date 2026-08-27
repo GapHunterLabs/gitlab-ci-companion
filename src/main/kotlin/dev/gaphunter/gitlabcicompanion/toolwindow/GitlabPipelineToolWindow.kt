@@ -33,8 +33,8 @@ import javax.swing.table.DefaultTableModel
 private const val POLL_INTERVAL_MS = 15_000
 
 /**
- * Opt-in, zero-network-by-default (CONSTITUTION.md 100% local promise
- * of v0.1 stays true for everyone who never configures an instance):
+ * Opt-in, zero-network-by-default (the 100% local promise of v0.1
+ * stays true for everyone who never configures an instance):
  * this panel only ever calls a real GitLab API once an instance +
  * token are configured in Settings. Polling only runs while the tool
  * window is actually showing, via [Alarm] tied to the ToolWindow's own
