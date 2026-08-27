@@ -17,8 +17,7 @@ import com.intellij.ide.passwordSafe.PasswordSafe
  * versions (253/261/262), confirmed by `verifyPlugin` itself, not a
  * guess. `get` is called off the EDT via `executeOnPooledThread` by
  * the caller, the same "heavy work off the UI thread" pattern already
- * used everywhere else in this catalog -- see
- * INTELLIJ_PLATFORM_KNOWLEDGE.md section H for the full story.
+ * used everywhere else in this catalog.
  */
 object GitlabCredentialsStore {
 
