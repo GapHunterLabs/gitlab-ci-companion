@@ -4,6 +4,16 @@
 
 ## [Unreleased]
 
+## [0.2.0]
+
+### Fixed
+
+- The script/trigger/extends presence check no longer flags a hidden
+  job (name starting with `.`) -- GitLab's own documented convention
+  for a template job that's never run on its own, only pulled in via
+  `extends:`. Previously a real false positive on a perfectly valid
+  pattern.
+
 ## [0.1.5]
 
 ### Added
@@ -58,7 +68,8 @@ instead of silent._
 - Zero network calls — every check runs against the file already open in
   the editor.
 
-[Unreleased]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.5...HEAD
+[Unreleased]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.2.0...HEAD
+[0.2.0]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.5...0.2.0
 [0.1.5]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.4...0.1.5
 [0.1.4]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.3...0.1.4
 [0.1.3]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.2...0.1.3

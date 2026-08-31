@@ -31,4 +31,21 @@ class ScriptPresenceValidatorTest {
         assertEquals(1, findings.size)
         assertTrue(findings.first().message.contains("empty_job"))
     }
+
+    @Test
+    fun `no finding for a hidden dot-prefixed template job, even with none of script, trigger, extends`() {
+        val doc = GitlabCiDocument(emptyList(), listOf(job(".base_job", hasScript = false)))
+        assertTrue(ScriptPresenceValidator.validate(doc).isEmpty())
+    }
+
+    @Test
+    fun `a real job is still flagged even when a hidden template job is also present`() {
+        val doc = GitlabCiDocument(
+            emptyList(),
+            listOf(job(".base_job", hasScript = false), job("empty_job", hasScript = false)),
+        )
+        val findings = ScriptPresenceValidator.validate(doc)
+        assertEquals(1, findings.size)
+        assertTrue(findings.first().message.contains("empty_job"))
+    }
 }
