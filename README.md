@@ -53,7 +53,10 @@ downloads, paid), not assumptions:
   jobs missing `script:`/`trigger:`/`extends:`, `rules:` entries using
   a key GitLab doesn't recognize, `only:`/`except:` combined with
   `rules:` (GitLab silently ignores the former when the latter is
-  present — a real, easy-to-miss surprise), and duplicate job names.
+  present — a real, easy-to-miss surprise), and duplicate job names. A
+  hidden job (name starting with `.`) is exempt from the
+  script/trigger/extends check — GitLab never runs it on its own, it
+  exists purely as an `extends:` template.
 - **Every rule independently toggleable**, same discipline as API
   Security Companion's settings — no rule is ever mandatory.
 
