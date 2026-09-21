@@ -1,0 +1,6 @@
+# SILENT, all of it (a real shape found on a corpus of public pipelines): a
+# .gitlab-ci.yml further down the tree is usually included by the top-level
+# one, whose stages apply here.
+unit_test api:
+  stage: unit_test
+  script: [make -C services/api test]

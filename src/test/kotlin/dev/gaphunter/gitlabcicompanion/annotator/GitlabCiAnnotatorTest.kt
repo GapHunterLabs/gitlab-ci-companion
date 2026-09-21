@@ -62,7 +62,7 @@ class GitlabCiAnnotatorTest : BasePlatformTestCase() {
                 - echo "deploying"
             """.trimIndent(),
         )
-        assertTrue(warnings.any { it.contains("depoy") && it.contains("not declared") })
+        assertTrue(warnings.any { it.contains("chosen stage depoy does not exist; available stages are .pre, build, test, .post") })
     }
 
     fun testJobMissingScriptTriggerExtendsProducesAWarning() {
@@ -132,6 +132,53 @@ class GitlabCiAnnotatorTest : BasePlatformTestCase() {
             """.trimIndent(),
         )
         assertTrue(warnings.any { it.contains("build_job") && it.contains("more than once") })
+    }
+
+    fun testShapesFoundOnRealPipelinesProduceNoWarnings() {
+        val warnings = warningsFor(
+            """
+            stages:
+              - build
+              - docker    ## a comment right after a stage name
+
+            .if-protected: &if-protected
+              if: '${'$'}CI_COMMIT_REF_PROTECTED == "true"'
+
+            image-build:
+              stage: docker   # and after a job's stage
+              script: [docker build .]
+              rules:
+                - <<: *if-protected
+                  when: manual
+                - interruptible: true
+
+            .template: &rpm
+              image: fedora
+            .template: &deb
+              image: debian
+
+            rpm-build:
+              <<: *rpm
+              stage: build
+              script: [make rpm]
+            """.trimIndent(),
+        )
+        assertTrue("Expected zero warnings, got: $warnings", warnings.isEmpty())
+    }
+
+    fun testADuplicatedTemplateThatIsExtendedIsStillReported() {
+        val warnings = warningsFor(
+            """
+            .base:
+              image: fedora
+            .base:
+              image: debian
+            job:
+              extends: .base
+              script: [make]
+            """.trimIndent(),
+        )
+        assertTrue(warnings.toString(), warnings.any { it.contains("'.base' is defined more than once") })
     }
 
     fun testNonGitlabCiYamlFileProducesNoWarningsEvenWithSimilarShape() {

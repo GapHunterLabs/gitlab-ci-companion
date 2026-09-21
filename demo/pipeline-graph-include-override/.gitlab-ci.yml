@@ -1,0 +1,15 @@
+# SILENT, all of it (a real shape found on a corpus of public pipelines):
+# container_scanning is defined by the included GitLab template, and this
+# file only adds needs: to it -- its stage and its script come from the
+# include, so neither the needs order nor "missing script" can be judged here.
+stages: [test, security, build]
+
+include:
+  - template: Security/Container-Scanning.gitlab-ci.yml
+
+build-image:
+  stage: build
+  script: [docker build .]
+
+container_scanning:
+  needs: [build-image]

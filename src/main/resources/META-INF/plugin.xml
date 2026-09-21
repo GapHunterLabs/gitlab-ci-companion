@@ -6,12 +6,21 @@
     <description><![CDATA[
         <p>Static syntax and structural checks for <code>.gitlab-ci.yml</code> —
         catch mistakes before running a real pipeline, not after.</p>
-        <p>Flags jobs referencing a <code>stage:</code> not declared in the
-        top-level <code>stages:</code> list, jobs missing <code>script:</code>/
+        <p>Flags jobs referencing a <code>stage:</code> that isn't one of the
+        pipeline's stages (the declared <code>stages:</code> list, or GitLab's
+        defaults when there is none), jobs missing <code>script:</code>/
         <code>trigger:</code>/<code>extends:</code>, malformed <code>rules:</code>
         entries using an unrecognized key, jobs combining <code>only:</code>/
-        <code>except:</code> with <code>rules:</code> (GitLab silently ignores
-        the former when the latter is present), and duplicate job names.</p>
+        <code>except:</code> with <code>rules:</code> (GitLab rejects that job:
+        they can't be used together), and duplicate job names.</p>
+        <p>Also catches the pipeline errors GitLab otherwise only reports when
+        you push: a job whose <code>needs:</code> or <code>dependencies:</code>
+        point at a job in a later stage, a need listed twice, a circular
+        <code>extends:</code>, and an <code>extends:</code> chain deeper than
+        GitLab's 10 levels -- with GitLab's own wording, and never guessing
+        about jobs or stages that come from an <code>include:</code>. Files
+        with CI/CD inputs are checked on the pipeline after their
+        <code>spec:</code> header.</p>
         <p>100% local by default — every static check runs against the file
         already open in the editor, never a live GitLab API. Live pipeline
         status is opt-in: configure a GitLab instance and Personal Access
