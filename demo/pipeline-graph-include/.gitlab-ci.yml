@@ -1,0 +1,14 @@
+# SILENT, all of it: with an include and no stages: of its own, the stage
+# order may come from the included file, so needs order can't be judged here.
+include:
+  - project: group/templates
+    file: /ci/base.yml
+
+build-app:
+  stage: build
+  needs: [deploy-app]
+  script: [make]
+
+deploy-app:
+  stage: deploy
+  script: [make deploy]

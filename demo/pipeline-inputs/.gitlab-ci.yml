@@ -1,0 +1,40 @@
+# A pipeline with CI/CD inputs (a real shape found on a corpus of public
+# pipelines): GitLab reads the spec: header, then runs the document after
+# `---` as the pipeline. The header is never a job, and the pipeline below
+# it is checked like any other.
+spec:
+  inputs:
+    release-stage:
+      default: deploy
+---
+stages: [build, test, deploy]
+
+compile:
+  stage: build
+  script: [make]
+
+lint:
+  # FLAGGED: there's no 'tests' stage
+  stage: tests
+  script: [make lint]
+
+package:
+  stage: build
+  # FLAGGED: publish runs in deploy, after build
+  needs: [publish]
+  script: [make package]
+
+publish:
+  stage: deploy
+  script: [make publish]
+
+release:
+  # SILENT: the stage is an input, only known once GitLab fills it in
+  stage: $[[ inputs.release-stage ]]
+  script: [make release]
+
+early-release-check:
+  stage: build
+  # SILENT: release's stage isn't known here
+  needs: [release]
+  script: [make check]

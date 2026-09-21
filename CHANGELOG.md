@@ -4,6 +4,58 @@
 
 ## [Unreleased]
 
+## [0.3.0]
+
+### Added
+
+- Catches the pipeline errors GitLab otherwise only reports when you push,
+  with GitLab's own wording:
+  - a job whose `needs:` or `dependencies:` point at a job in a later
+    stage ("need X is not defined in current or prior stages") -- a job's
+    stage is followed through `extends:` templates in the same file, and
+    `.pre`/`.post` and GitLab's default stages are taken into account;
+  - a need listed twice;
+  - a circular `extends:`;
+  - an `extends:` chain deeper than GitLab's limit of 10 levels.
+  Anything that depends on an `include:` (a template, or the stage list
+  itself) is never guessed at. Both new checks can be turned off in
+  Settings > Tools > GitLab CI Companion.
+
+### Fixed
+
+- The description and the warning said GitLab silently ignores
+  `only:`/`except:` when a job also has `rules:`. It doesn't: GitLab
+  rejects the job ("may not be used with `rules`"). The check itself was
+  right; its explanation now is too.
+- "Job has none of script:/trigger:/extends:" no longer fires on a job
+  whose script arrives through a YAML merge key (`<<: *build_job`), or on
+  any job of a file with an `include:`, where a job without `script:` is
+  often a partial override of an included job (e.g. adding `needs:` to a
+  GitLab template's `container_scanning`).
+- A file with CI/CD inputs (a `spec:` header, then `---`) was checked on
+  its header instead of its pipeline: `spec` was reported as a job with no
+  script, and the pipeline itself went unchecked. The pipeline after the
+  header is now the one checked, as GitLab does, and a value filled in
+  from `$[[ inputs.* ]]` is never judged.
+- The undeclared-stage check now knows the stages GitLab always offers:
+  `.pre` and `.post`, and `build`/`test`/`deploy` when the file declares
+  no `stages:`. It no longer judges a file whose stage list may come from
+  an `include:`, or a hidden template job, and it now quotes GitLab's own
+  error ("chosen stage ... does not exist; available stages are ...").
+- Files that are usually pulled in by an `include:` -- anything under
+  `.gitlab/`, or a `.gitlab-ci.yml` below the project's top level -- are
+  no longer judged on stages or on a missing `script:`: the stage list,
+  and often the rest of a job, live in the file that includes them.
+- A stage name followed by a comment (`- docker  # build images`) was read
+  with the comment attached and reported as undeclared.
+- A `rules:` entry using a YAML merge key (`- <<: *if-protected`) or
+  `interruptible:` is no longer reported as having an unrecognized key.
+- A hidden template defined twice only to hold different YAML anchors, and
+  never used by `extends:`, is no longer reported as a duplicate job.
+- All of the above were found by running every check over 250 real public
+  pipelines; one real `only:`+`rules:` error the plugin reports correctly
+  was found there too.
+
 ## [0.2.0]
 
 ### Fixed
@@ -68,7 +120,8 @@ instead of silent._
 - Zero network calls — every check runs against the file already open in
   the editor.
 
-[Unreleased]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.2.0...HEAD
+[Unreleased]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.3.0...HEAD
+[0.3.0]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.5...0.2.0
 [0.1.5]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.4...0.1.5
 [0.1.4]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.3...0.1.4

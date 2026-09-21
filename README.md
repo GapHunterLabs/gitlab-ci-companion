@@ -49,14 +49,43 @@ downloads, paid), not assumptions:
   documented in this workspace's `ansible-companion/KNOWN_ISSUES.md`
   (Round 3).
 - **Every check is a real, verifiable structural fact**, computed from
-  the bundled YAML plugin's own PSI — undeclared stage references,
-  jobs missing `script:`/`trigger:`/`extends:`, `rules:` entries using
+  the bundled YAML plugin's own PSI — a `stage:` that isn't one of the
+  pipeline's stages (`.pre`, the declared `stages:` or GitLab's default
+  `build`/`test`/`deploy`, `.post`; GitLab's own "chosen stage does not
+  exist" error), jobs missing `script:`/`trigger:`/`extends:`, `rules:` entries using
   a key GitLab doesn't recognize, `only:`/`except:` combined with
-  `rules:` (GitLab silently ignores the former when the latter is
-  present — a real, easy-to-miss surprise), and duplicate job names. A
-  hidden job (name starting with `.`) is exempt from the
-  script/trigger/extends check — GitLab never runs it on its own, it
-  exists purely as an `extends:` template.
+  `rules:` (GitLab rejects that job -- "may not be used with `rules`";
+  earlier versions of this README wrongly said GitLab silently ignores
+  `only`/`except`), and duplicate job names. A hidden job (name starting
+  with `.`) is exempt from the script/trigger/extends check — GitLab
+  never runs it on its own, it exists purely as an `extends:` template.
+- **Pipeline-graph errors GitLab only reports when you push**, with the
+  wording of GitLab's own source (`lib/gitlab/ci/yaml_processor.rb`,
+  `lib/gitlab/ci/config/extendable/entry.rb`): a `needs:` or
+  `dependencies:` entry on a job in a *later* stage ("need X is not
+  defined in current or prior stages"), a need listed twice, a circular
+  `extends:`, and an `extends:` chain deeper than GitLab's limit of 10.
+  Neither JetBrains's own GitLab CI inspections (IntelliJ IDEA Ultimate)
+  nor CI Aid for GitLab check these; they check that a needed job
+  *exists*, not where it runs. Fail-closed on purpose: a job's stage is
+  followed through `extends:` templates in the same file (the last
+  template wins, as GitLab merges them), and anything that comes from an
+  `include:` -- a template, or the stage list itself -- is never guessed
+  at; needs on another pipeline/project, on a hidden job, or with
+  `parallel:matrix` are skipped too.
+- **CI/CD inputs.** A file with a `spec:` header is checked on the
+  pipeline after the header's `---`, the document GitLab actually runs;
+  a value GitLab fills in from `$[[ inputs.* ]]` (or reads through a YAML
+  alias) is left alone rather than guessed.
+- **Included files.** Only the project's own top-level `.gitlab-ci.yml`
+  is judged on stages and on a missing `script:`. A file under `.gitlab/`,
+  or a `.gitlab-ci.yml` further down the tree, is usually pulled in by an
+  `include:`, and its stage list -- often the rest of a job too -- lives
+  in the file that includes it; the checks that only look inside one job
+  (rules, `only`/`except`, duplicated needs, `extends:` cycles) still run.
+- **Measured on real pipelines.** Every check was run over 250 public
+  `.gitlab-ci.yml` files; each warning was reviewed by hand, and every
+  false positive found there was fixed and turned into a test.
 - **Every rule independently toggleable**, same discipline as API
   Security Companion's settings — no rule is ever mandatory.
 

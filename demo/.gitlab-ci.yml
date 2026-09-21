@@ -15,8 +15,7 @@ deploy_job:
   script:
     - echo "deploying"
 
-# No script/trigger/extends -- this job would silently do nothing in a
-# real GitLab pipeline.
+# No script/trigger/extends -- GitLab rejects a job with none of them.
 empty_job:
   stage: test
 

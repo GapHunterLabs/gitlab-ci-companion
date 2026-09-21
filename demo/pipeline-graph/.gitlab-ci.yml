@@ -1,0 +1,117 @@
+# Pipeline-graph checks: every line marked FLAGGED is a pipeline GitLab
+# itself rejects; everything marked SILENT is a trap that must not warn.
+stages:
+  - build
+  - test
+  - deploy
+
+.base:
+  image: alpine
+  stage: build
+
+.deploy-template:
+  extends: .base
+  stage: deploy
+
+compile:
+  extends: .base
+  script: [make]
+
+unit-tests:
+  stage: test
+  # SILENT: an earlier stage
+  needs: [compile]
+  script: [make test]
+
+lint:
+  stage: test
+  needs:
+    # SILENT: the same stage is allowed (GitLab 14.2+)
+    - job: unit-tests
+    # SILENT: a need on another project
+    - job: other-project-job
+      project: group/other
+  script: [make lint]
+
+package:
+  stage: build
+  needs:
+    # FLAGGED: publish runs in deploy, after build
+    - publish
+  script: [make package]
+
+publish:
+  # deploy, from the template (which overrides .base's build)
+  extends: .deploy-template
+  dependencies:
+    # SILENT: an earlier stage
+    - compile
+  script: [make publish]
+
+smoke:
+  stage: build
+  # FLAGGED: a dependency in a later stage
+  dependencies: [publish]
+  script: [make smoke]
+
+report:
+  stage: test
+  # FLAGGED: the same need twice
+  needs: [compile, compile]
+  script: [make report]
+
+matrix-consumer:
+  stage: deploy
+  needs:
+    # SILENT: parallel:matrix needs may repeat a job name
+    - job: compile
+      parallel:
+        matrix:
+          - TARGET: linux
+    - job: compile
+      parallel:
+        matrix:
+          - TARGET: windows
+  script: [make]
+
+# FLAGGED twice: each template extends the other
+.loop-a:
+  extends: .loop-b
+.loop-b:
+  extends: .loop-a
+
+prepare:
+  stage: .pre
+  script: [make prep]
+
+cleanup:
+  stage: .post
+  # SILENT: .pre always runs before .post
+  needs: [prepare]
+  script: [make clean]
+
+default-stage-job:
+  # FLAGGED: no stage means "test", and publish runs in deploy
+  needs: [publish]
+  script: [echo hi]
+
+# Found on a corpus of real pipelines: a stage (and script) that arrives
+# through a YAML merge key isn't visible to these checks.
+.docker_build: &docker_build
+  stage: build
+  script: [docker build .]
+
+docker-image:
+  <<: *docker_build
+
+early-consumer:
+  stage: build
+  # SILENT: docker-image's stage comes through `<<: *docker_build`
+  needs: [docker-image]
+  script: [echo]
+
+templated-from-elsewhere:
+  # SILENT: the template isn't in this file, so the stage can't be known
+  extends: .not-in-this-file
+  needs: [publish]
+  script: [echo]

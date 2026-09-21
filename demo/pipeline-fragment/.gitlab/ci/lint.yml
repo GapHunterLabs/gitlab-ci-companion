@@ -1,0 +1,11 @@
+# SILENT, all of it (a real shape found on a corpus of public pipelines):
+# this file is pulled in by an `include:` in the project's .gitlab-ci.yml,
+# which is where the 'lint' stage is declared -- and where lint:yaml may get
+# the rest of its definition. Neither can be judged from here.
+lint:shellcheck:
+  stage: lint
+  script: [shellcheck ./*.sh]
+
+lint:yaml:
+  stage: lint
+  needs: [lint:shellcheck]
