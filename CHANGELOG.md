@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+## [0.3.1]
+
+### Fixed
+
+- Review/star CTA now links to this plugin's own Marketplace
+  reviews page instead of the vendor's generic plugin list.
+
 ## [0.3.0]
 
 ### Added
@@ -120,7 +127,8 @@ instead of silent._
 - Zero network calls — every check runs against the file already open in
   the editor.
 
-[Unreleased]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.3.0...HEAD
+[Unreleased]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.3.1...HEAD
+[0.3.1]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.3.0...0.3.1
 [0.3.0]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.5...0.2.0
 [0.1.5]: https://github.com/GapHunterLabs/gitlab-ci-companion/compare/0.1.4...0.1.5
