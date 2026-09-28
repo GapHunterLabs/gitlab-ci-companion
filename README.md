@@ -4,6 +4,13 @@ IntelliJ-family plugin. Static syntax and structural checks for
 `.gitlab-ci.yml` — catch mistakes before running a real pipeline, not
 after.
 
+![GitLab CI Companion: Catch the .gitlab-ci.yml errors GitLab only reports when you push](docs/media/hero.gif)
+
+Each feature on its own:
+[Stage typos](docs/media/01-stage-check.gif) ·
+[needs: across stages](docs/media/02-needs-order.gif) ·
+[only: with rules:](docs/media/03-only-rules.gif)
+
 ## Why it exists
 
 Born from real evidence in JetBrains Marketplace reviews of "GitLab
