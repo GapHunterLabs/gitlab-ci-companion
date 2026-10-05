@@ -107,10 +107,12 @@ a GitLab instance URL + a Personal Access Token (`api`/`read_api`
 scope), then open the "GitLab CI" tool window (bottom) — it detects
 the project's GitLab remote automatically from `.git/config`.
 
-## Enterprise / Team Licensing
+## Support
 
-Need enterprise features, custom pipeline validation rules, or team
-licensing? Contact us at **gaphunterlabs@gmail.com**.
+- **Bugs and feature requests:** [GitHub Issues](https://github.com/GapHunterLabs/gitlab-ci-companion/issues)
+- **Questions, or custom rules for a team's codebase:** **gaphunterlabs@gmail.com**
+- **Security vulnerabilities:** report privately as described in [SECURITY.md](SECURITY.md), not in a public issue.
+- **Privacy and network behavior:** [PRIVACY.md](PRIVACY.md)
 
 ## Development
 
