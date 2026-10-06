@@ -1,6 +1,6 @@
 # Privacy Policy — GitLab CI Companion
 
-**Effective date:** 2026-08-04
+**Effective date:** 2026-10-06
 
 GitLab CI Companion is a Gap Hunter Labs plugin for IntelliJ Platform IDEs.
 This policy is short because the plugin's design makes it short: there
@@ -8,11 +8,24 @@ is nothing to disclose beyond what's below.
 
 ## What this plugin collects
 
-**Nothing.** GitLab CI Companion does not collect, store, transmit, or sell
+**Nothing.** GitLab CI Companion does not collect, transmit, or sell
 any data of its own — no usage analytics, no telemetry, no crash reports,
 no personally identifiable information. The plugin has no backend and no
 Gap Hunter Labs server ever sees your `.gitlab-ci.yml` files, your GitLab
 instance, or your credentials.
+
+## What it keeps on your machine
+
+To decide when to show its one-time rating prompt, the plugin keeps two values
+in the IDE's own settings on your computer: whether you have answered the
+prompt, and a list of up to 500 findings it has already counted. Until the
+next release, each entry in that list is the file path and line of a finding,
+sometimes with its message. From the next release on, each entry is a one-way
+fingerprint that cannot be turned back into a path, and the old list is
+deleted. None of this is ever sent anywhere.
+
+Settings you change for the plugin are saved in the IDE's settings, like any
+other IDE setting, and are never sent anywhere.
 
 ## Network access
 
