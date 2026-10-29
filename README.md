@@ -110,7 +110,7 @@ the project's GitLab remote automatically from `.git/config`.
 ## Support
 
 - **Bugs and feature requests:** [GitHub Issues](https://github.com/GapHunterLabs/gitlab-ci-companion/issues)
-- **Questions, or custom rules for a team's codebase:** **gaphunterlabs@gmail.com**
+- **Questions, or custom rules for a team's codebase:** **contact@gaphunterlabs.com**
 - **Security vulnerabilities:** report privately as described in [SECURITY.md](SECURITY.md), not in a public issue.
 - **Privacy and network behavior:** [PRIVACY.md](PRIVACY.md)
 
