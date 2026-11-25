@@ -53,8 +53,7 @@ downloads, paid), not assumptions:
 - **Filename/path-based detection, never content-sniffed.** Detects
   `.gitlab-ci.yml` and any `.yml`/`.yaml` under a `.gitlab/` directory —
   no `FileTypeOverrider`, no risk of the FileType-desync class of bug
-  documented in this workspace's `ansible-companion/KNOWN_ISSUES.md`
-  (Round 3).
+  documented in the `KNOWN_ISSUES.md` of `ansible-companion`.
 - **Every check is a real, verifiable structural fact**, computed from
   the bundled YAML plugin's own PSI — a `stage:` that isn't one of the
   pipeline's stages (`.pre`, the declared `stages:` or GitLab's default
